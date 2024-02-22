@@ -77,7 +77,7 @@ export function showForecast(forecastList) {
  * Recebe um objeto com as informações de uma cidade e retorna um elemento HTML
  */
 export function createCityElement(cityInfo) {
-  const { name, country, temp, condition, icon /* , url */ } = cityInfo;
+  const { name, country, temp, condition, icon, url } = cityInfo;
 
   const cityElement = createElement('li', 'city');
 
@@ -104,6 +104,9 @@ export function createCityElement(cityInfo) {
   cityElement.appendChild(headingElement);
   cityElement.appendChild(infoContainer);
 
+  const citiesBoard = document.getElementById('cities');
+  citiesBoard.appendChild(cityElement);
+
   return cityElement;
 }
 
@@ -119,7 +122,8 @@ export async function handleSearch(event) {
   const cities = await searchCities(searchValue);
   if (cities) {
     cities.forEach(async (element) => {
-      await getWeatherByCity(element.url);
+      const citieElement = await getWeatherByCity(element.url);
+      createCityElement(citieElement);
     });
   }
 }
