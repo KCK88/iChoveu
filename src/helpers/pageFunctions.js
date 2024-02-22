@@ -107,6 +107,9 @@ export function createCityElement(cityInfo) {
   const citiesBoard = document.getElementById('cities');
   citiesBoard.appendChild(cityElement);
 
+  const forecastButton = createElement('button', 'city-forecast-button', 'Ver previsão');
+  cityElement.appendChild(forecastButton);
+
   return cityElement;
 }
 
