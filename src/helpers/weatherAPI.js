@@ -4,19 +4,21 @@ const TOKEN = import.meta.env.VITE_TOKEN;
 export const searchCities = async (term) => {
   const response = await fetch(`http://api.weatherapi.com/v1/search.json?lang=pt&key=${TOKEN}&q=${term}`);
   const data = await response.json();
-  if (!response.ok || !data.length) {
-    window.alert('Nenhuma cidade encontrada');
-    return [];
+  if (response.ok === false || data.length === 0) {
+    return window.alert('Nenhuma cidade encontrada');
   }
   return data;
 };
 
-export const getWeatherByCity = (/* cityURL */) => {
-//   seu código aqui
+export const getWeatherByCity = async (cityURL) => {
+  const response = await fetch(`http://api.weatherapi.com/v1/current.json?lang=pt&key=${TOKEN}&q=${cityURL}`);
+  const data = await response.json();
+  return {
+    temp: data.current.temp_c,
+    condition: data.current.condition.text,
+    icon: data.current.condition.icon,
+    country: data.location.country,
+    name: data.location.name,
+    url: cityURL,
+  };
 };
-// Swal.fire({
-  // icon: "error",
-  // title: "Oops...",
-  // text: "Something went wrong!",
-  // footer: '<a href="#">Why do I have this issue?</a>'
-// });
